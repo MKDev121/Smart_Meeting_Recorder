@@ -24,7 +24,7 @@ class MomPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Minutes of Meeting',
+                'Name of the File',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -38,6 +38,7 @@ class MomPage extends StatelessWidget {
                   fontSize: 16,
                   color: Colors.white,
                 ),
+                textAlign: TextAlign.center,
               ),
             ],
           ),
