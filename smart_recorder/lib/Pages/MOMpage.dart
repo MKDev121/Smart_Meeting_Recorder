@@ -23,13 +23,30 @@ class MomPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'Name of the File',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xffF87575),
-                ),
+              Stack(
+                children: [
+                  // Outline
+                  Text(
+                    'Name of the File',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 2
+                        ..color = Color.fromARGB(255, 0, 0, 0),
+                    ),
+                  ),
+                  // Fill
+                  Text(
+                    'Name of the File',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xffF87575),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 20),
               Text(
