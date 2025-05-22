@@ -49,14 +49,41 @@ class MomPage extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20),
-              Text(
-                'This is the MoM page',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xffF87575),
+              Container(
+                height: screenHeight * 0.75,
+                width: screenWidth * 0.75,
+                decoration: BoxDecoration(
+                  color: Color(0xFFB9E6FF),
                 ),
-                textAlign: TextAlign.center,
+                child: SingleChildScrollView(
+                  child: Text(
+                    "Generated MoM",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Color(0xffF87575),
+                    ),
+                  ),
+                )
               ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // Add your action here
+                    },
+                    child: Text('Save'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Add your action here
+                    },
+                    child: Text('Share'),
+                  ),
+                ],
+              )
             ],
           ),
         ),
