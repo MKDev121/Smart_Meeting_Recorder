@@ -28,7 +28,7 @@ class MomPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Color(0xffF87575),
                 ),
               ),
               SizedBox(height: 20),
@@ -36,7 +36,7 @@ class MomPage extends StatelessWidget {
                 'This is the MoM page',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white,
+                  color: Color(0xffF87575),
                 ),
                 textAlign: TextAlign.center,
               ),
