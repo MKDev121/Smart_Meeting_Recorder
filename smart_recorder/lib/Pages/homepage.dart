@@ -7,12 +7,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      appBar: AppBar(
+        title:  Text("Home Page",textAlign: TextAlign.start,),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 209, 247, 251),
+      ),
       body:Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const SizedBox(height: 50),
               MOMFileCard(
                 fileName: "Meeting 1",
                 date: "2023-10-01",
@@ -27,7 +33,7 @@ class HomePage extends StatelessWidget {
                 chairPerson: "Jane Smith"
               ),
               const SizedBox(height: 20),
-              ElevatedButton(onPressed: (){}, child: const Text('Start Recording'))
+              AddMOMButton()
             ],
           ),
         ],
