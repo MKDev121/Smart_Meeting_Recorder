@@ -70,17 +70,49 @@ class MomPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add your action here
-                    },
-                    child: Text('Save'),
+                  SizedBox(
+                    height: screenHeight * 0.05,
+                    width: screenHeight * 0.05,
+                    child: ElevatedButton(// Save button
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xffF87575),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                      ),
+                      onPressed: () {
+                        // Save button code here
+                      },
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.save,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add your action here
-                    },
-                    child: Text('Share'),
+                  SizedBox(
+                    height: screenHeight * 0.05,
+                    width: screenHeight * 0.05,
+                    child: ElevatedButton(// Share button
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xffF87575),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                      ),
+                      onPressed: () {
+                        // Share button code here
+                      },
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.share,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               )
