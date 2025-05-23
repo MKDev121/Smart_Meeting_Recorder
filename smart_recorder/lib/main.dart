@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'Pages/homepage.dart';
+import 'Pages/MOMGenerationpage.dart';
+import 'package:smart_recorder/Pages/MOMpage.dart';
+
 void main() {
   runApp(const MainApp());
 }
@@ -10,7 +13,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomePage(),
+      home: Momgenpage(),
     );
   }
 }
