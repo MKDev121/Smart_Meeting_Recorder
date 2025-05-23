@@ -1,0 +1,295 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // For date and time formatting
+
+class Momgenpage extends StatefulWidget {
+  const Momgenpage({super.key});
+
+  @override
+  _MomgenpageState createState() => _MomgenpageState();
+}
+
+class _MomgenpageState extends State<Momgenpage> {
+  final TextEditingController _fileNameController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _chairpersonController = TextEditingController(); // Added chairperson controller
+
+  @override
+  void dispose() {
+    _fileNameController.dispose();
+    _dateController.dispose();
+    _timeController.dispose();
+    _chairpersonController.dispose(); // Dispose chairperson controller
+    super.dispose();
+  }
+
+  // Function to show date picker
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Colors.blue[600]!, // Header background color
+              onPrimary: Colors.white,   // Header text color
+              onSurface: Colors.black,   // Body text color
+            ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null) {
+      setState(() {
+        _dateController.text = DateFormat('dd/MM/yyyy').format(picked);
+      });
+    }
+  }
+
+  // Function to show time picker
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Colors.blue[600]!, // Header background color
+              onPrimary: Colors.white,   // Header text color
+              onSurface: Colors.black,   // Body text color
+            ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null) {
+      setState(() {
+        // Format to hh:mm (24-hour format) or hh:mm a (AM/PM) as needed
+        _timeController.text = picked.format(context); // e.g., "3:30 PM"
+        // For 24-hour:
+        // _timeController.text = '${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}';
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[900], // Dark background for the overall page
+      appBar: AppBar(
+        title: const Text(
+          'MOM generation page',
+          style: TextStyle(color: Colors.white), // Text color for app bar title
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey[800], // Darker app bar color
+        elevation: 0, // Remove shadow
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Container(
+            width: 380, // Adjusted width for better fit, can be dynamic
+            padding: const EdgeInsets.all(25.0),
+            decoration: BoxDecoration(
+              color: Colors.white, // White background for the main card
+              borderRadius: BorderRadius.circular(15.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  spreadRadius: 3,
+                  blurRadius: 10,
+                  offset: const Offset(0, 5), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Wrap content vertically
+              crossAxisAlignment: CrossAxisAlignment.stretch, // Stretch children horizontally
+              children: [
+                const Text(
+                  'Generate MOM',
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 30),
+
+                // Name of the file input
+                _buildTextField(
+                  _fileNameController,
+                  'Enter name of the file',
+                  labelText: 'File Name',
+                ),
+                const SizedBox(height: 20),
+
+                // Upload Area
+                GestureDetector(
+                  onTap: () {
+                    // TODO: Implement file upload logic here (e.g., using file_picker package)
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Upload file tapped')),
+                    );
+                  },
+                  child: Container(
+                    height: 140,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(color: Colors.grey[400]!),
+                    ),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.cloud_upload, size: 60, color: Colors.grey),
+                        SizedBox(height: 10),
+                        Text(
+                          'Tap to upload file',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 25),
+
+                // Date Input
+                _buildTextField(
+                  _dateController,
+                  'dd/mm/yyyy',
+                  labelText: 'Date',
+                  readOnly: true,
+                  onTap: () => _selectDate(context),
+                  suffixIcon: Icons.calendar_today,
+                ),
+                const SizedBox(height: 20),
+
+                // Time Input
+                _buildTextField(
+                  _timeController,
+                  'hh:mm',
+                  labelText: 'Time',
+                  readOnly: true,
+                  onTap: () => _selectTime(context),
+                  suffixIcon: Icons.access_time,
+                ),
+                const SizedBox(height: 20),
+
+                // Chairperson Input
+                _buildTextField(
+                  _chairpersonController,
+                  'Enter Name',
+                  labelText: 'Chairperson',
+                ),
+                const SizedBox(height: 30),
+
+                // Add Attendees List Button
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Implement navigation to an attendees list page or show a modal
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Add attendees list tapped')),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue[600], // Button color
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    elevation: 5,
+                  ),
+                  child: const Text(
+                    'Add attendees list',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                ),
+                const SizedBox(height: 15),
+
+                // Generate Button
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Implement the actual MOM generation logic
+                    String momDetails =
+                        'File: ${_fileNameController.text}\n'
+                        'Date: ${_dateController.text}\n'
+                        'Time: ${_timeController.text}\n'
+                        'Chairperson: ${_chairpersonController.text}';
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Generating MOM with details:\n$momDetails'),
+                        duration: const Duration(seconds: 3),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurple[400], // Another distinct color
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    elevation: 5,
+                  ),
+                  child: const Text(
+                    'Generate',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Helper widget for consistent TextField styling
+  Widget _buildTextField(
+    TextEditingController controller,
+    String hintText, {
+    String? labelText,
+    bool readOnly = false,
+    VoidCallback? onTap,
+    IconData? suffixIcon,
+  }) {
+    return TextFormField(
+      controller: controller,
+      readOnly: readOnly,
+      onTap: onTap,
+      style: const TextStyle(color: Colors.black87), // Text input color
+      decoration: InputDecoration(
+        labelText: labelText,
+        labelStyle: const TextStyle(color: Colors.blueGrey), // Label text color
+        hintText: hintText,
+        hintStyle: TextStyle(color: Colors.grey[500]),
+        filled: true,
+        fillColor: Colors.grey[100], // Light grey background for fields
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide.none, // No border line if filled
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.grey[300]!, width: 1.0), // Light border when enabled
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.blue[600]!, width: 2.0), // Blue border when focused
+        ),
+        suffixIcon: suffixIcon != null ? Icon(suffixIcon, color: Colors.blueGrey) : null,
+        contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+      ),
+    );
+  }
+}
