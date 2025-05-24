@@ -1,19 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:smart_recorder/Functionality/MOMGeneration.dart';
+const String paragraph = """
+Manager: Good morning, everyone. Let's start with our product discussion. The latest update has been deployed—any feedback?
+Developer: The new UI improvements are great, but we noticed a minor bug in the checkout flow.
+Designer: I agree. The user experience is smoother, but we might need to tweak the button placements.
+Manager: Noted. Let's prioritize fixing the checkout issue. QA team, can you confirm the bug?
+QA Lead: Yes, we've logged it. We'll run additional tests today.
+Marketing Lead: Also, our latest campaign is driving more traffic. We should ensure the servers can handle the load.
+DevOps Engineer: No worries, we've scaled up the infrastructure. Performance should be stable.
+Manager: Great. Before we wrap up, any other office updates?
+HR: Just a reminder—team-building event is scheduled for Friday. Please RSVP.
+Manager: Sounds good! Thanks, everyone. Let's reconvene next week.
+""";
 
-const String paragraph = '''
-Games have been an integral part of human life for centuries, evolving from simple recreational activities to complex digital experiences. They serve various purposes, from entertainment and relaxation to skill development and social bonding. Outdoor sports enhance physical fitness, discipline, and teamwork, while board games sharpen cognitive abilities and encourage strategic thinking. Video games, on the other hand, offer immersive experiences, fostering creativity, problem-solving, and even reflex improvement.
 
-Beyond mere entertainment, games teach valuable life lessons. They encourage perseverance, patience, and adaptability, allowing players to embrace challenges and find solutions. Multiplayer games promote collaboration, fostering friendships and a sense of community. Competitive gaming fuels determination, helping players strive for excellence, while casual gaming offers stress relief and enjoyment.
-
-The cultural impact of games is profound, influencing arts, storytelling, and even education. Gamification has been integrated into learning systems, making education engaging and interactive. From childhood to adulthood, games remain a vital part of recreation and development, shaping individuals and bringing people together. Whether played solo or in groups, indoors or outdoors, games add excitement and meaning to life, reflecting the universal desire for fun, connection, and growth.
-''';
-
-
-class MomPage extends StatelessWidget {
+class  MomPage extends StatefulWidget {
   const MomPage({super.key});
 
   @override
+  State<MomPage> createState() => _MomPageState();
+}
+
+class _MomPageState extends State<MomPage> {
+  bool momGen=true;
+  String mom="";
+
+  @override
   Widget build(BuildContext context) {
+    if(momGen){
+      sendData("02-10-2023", "9:00 PM", "Meet(Manager)", "Srajan(Developer),Priyansh(Designer),Dev(QA lead),Rudra(Dev ops)", paragraph)
+      .then((response){
+        setState(() {
+          mom=response;
+          momGen=false;
+        });
+      });
+
+
+    }
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 114, 186, 224),
       body:Center( child: SafeArea(
@@ -74,11 +98,11 @@ class MomPage extends StatelessWidget {
                           decoration: const BoxDecoration(
                             color: Color.fromARGB(255, 253, 255, 185),
                           ),
-                          child: const SingleChildScrollView(
+                          child:  SingleChildScrollView(
                             child: Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Text(
-                                "paragraph",
+                                mom,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: 15,

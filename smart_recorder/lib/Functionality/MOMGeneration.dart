@@ -1,23 +1,28 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gemini/flutter_gemini.dart';
 
-String generateMOMPrompt(String date, String time, String chairperson, String transcription) {
-  return """
-  Generate a detailed and well-structured Minutes of Meeting (MOM) based on the following details:
-  
-  - **Date:** $date
-  - **Time:** $time
-  - **Chairperson:** $chairperson
-  - **Meeting Transcription:** Below is the full transcription of the meeting:
-  
-  $transcription
-  
-  Extract key discussions, decisions made, action items, and next steps from the above transcription. Present the response in a professional format with clear sections.
-  """;
+Future<String> sendData(String date,String time,String chairperson,String attendees,String transcription)async{
+  final url=Uri.parse('http://192.168.0.2:5000/getMOM');
+  final response=await http.post(url,headers: {
+    'Content-Type':'application/json',
+  },body:json.encode({
+    'date':date,
+    'time':time,
+    'attendees':attendees,
+    'chairperson':chairperson,
+    'transcription':transcription,
+  }));
+  if (response.statusCode == 200) {
+     // Backend response as a string
+    print('Success');
+  } else {
+    print('Error: ${response.statusCode}');
+  }
+  Map<String, dynamic> data = jsonDecode(response.body);
+  String mom = data['mom'];
+  return mom;
 }
 
 
-Future<void> fetchAIResponse(String prompt) async {
-  final response = await Gemini.chat(prompt);
-  print('AI Response: ${response.text}');
-}
+
